@@ -37,7 +37,8 @@ const Hotel = () => {
     return diffDays;
   }
 
-  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+  // Ensure dates is defined and has the expected structure before using its properties
+  const days = dates?.[0]?.endDate && dates?.[0]?.startDate ? dayDifference(dates[0].endDate, dates[0].startDate) : 0;
 
   const handleOpen = (i) => {
     setSlideNumber(i);

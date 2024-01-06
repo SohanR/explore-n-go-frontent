@@ -13,7 +13,7 @@ import { useContext, useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -61,27 +61,24 @@ const Header = ({ type }) => {
           type === "list" ? "headerContainer listMode" : "headerContainer"
         }
       >
-        <div className="headerList">
-          <div className="headerListItem active">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Stays</span>
-          </div>
-          <div className="headerListItem">
+        <div className="headerList flex flex-row justify-start gap-6 mb-3 items-center">
+         
+          <Link to='/hotels' className="text-white active" >
             <FontAwesomeIcon icon={faPlane} />
-            <span>Flights</span>
-          </div>
-          <div className="headerListItem">
+            <span>Hotels</span>
+          </Link>
+          <Link to='/package' className="text-white">
             <FontAwesomeIcon icon={faCar} />
-            <span>Car rentals</span>
-          </div>
-          <div className="headerListItem">
+            <span>Packages</span>
+          </Link>
+          <Link to='photograph' className="text-white">
             <FontAwesomeIcon icon={faBed} />
-            <span>Attractions</span>
-          </div>
-          <div className="headerListItem">
+            <span>Photograpers</span>
+          </Link>
+          <Link to='/taxis' className="text-white">
             <FontAwesomeIcon icon={faTaxi} />
-            <span>Airport taxis</span>
-          </div>
+            <span> taxis</span>
+          </Link>
         </div>
         {type !== "list" && (
           <>
@@ -93,7 +90,7 @@ const Header = ({ type }) => {
               more with a free Lamabooking account
             </p>
             {!user && <button className="headerBtn">Sign in / Register</button>}
-            <div className="headerSearch">
+            <div className="headerSearch py-8">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
                 <input
@@ -198,7 +195,7 @@ const Header = ({ type }) => {
                 )}
               </div>
               <div className="headerSearchItem">
-                <button className="headerBtn" onClick={handleSearch}>
+                <button className="headerBtn rounded w-32" onClick={handleSearch}>
                   Search
                 </button>
               </div>
