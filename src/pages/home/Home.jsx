@@ -1,3 +1,4 @@
+import WhyUs from "../../components/WhyUs/WhyUs";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Footer from "../../components/footer/Footer";
@@ -17,6 +18,7 @@ const Home = () => {
         <h1 className="homeTitle">Browse by property type</h1>
         <PropertyList/>
         <h1 className="homeTitle">Homes guests love</h1>
+        <WhyUs/>
         <FeaturedProperties/>
         <MailList/>
         <Footer/>
