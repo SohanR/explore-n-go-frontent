@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
+import { FaHome } from "react-icons/fa";
 
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("");
@@ -61,37 +62,19 @@ const Header = ({ type }) => {
           type === "list" ? "headerContainer listMode" : "headerContainer"
         }
       >
-        <div className="headerList flex flex-row justify-start gap-6 mb-3 items-center">
-         
-          <Link to='/hotels' className="text-white active" >
-            <FontAwesomeIcon icon={faPlane} />
-            <span>Hotels</span>
-          </Link>
-          <Link to='/package' className="text-white">
-            <FontAwesomeIcon icon={faCar} />
-            <span>Packages</span>
-          </Link>
-          <Link to='photograph' className="text-white">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Photograpers</span>
-          </Link>
-          <Link to='/taxis' className="text-white">
-            <FontAwesomeIcon icon={faTaxi} />
-            <span> taxis</span>
-          </Link>
-        </div>
+       
         {type !== "list" && (
           <>
-            <h1 className="headerTitle">
-              A lifetime of discounts? It's Genius.
+            <h1 className="text-3xl mt-7">
+            Amazing hostel for the free spirited traveler.
+
             </h1>
-            <p className="headerDesc">
-              Get rewarded for your travels – unlock instant savings of 10% or
-              more with a free Lamabooking account
+            <p className="text-xl py-6">
+            A life time of discounts? - We have everything you need. It's simple: the longer you stay, the more you save!
             </p>
-            {!user && <button className="headerBtn">Sign in / Register</button>}
-            <div className="headerSearch py-8">
-              <div className="headerSearchItem">
+            {!user && <button className="headerBtn mt-6">Sign in / Register</button>}
+            <div className="headerSearch py-12">
+              <div className="headerSearchItem ">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
                 <input
                   type="text"
