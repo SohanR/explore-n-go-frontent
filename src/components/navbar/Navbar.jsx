@@ -7,8 +7,10 @@ import { FaBox, FaCamera, FaHome, FaHotel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./navbar.css";
+import DropDownMenu from "../dropDown/dropdown";
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const user=true;
 
   return (
     <div className="navbar">
@@ -39,7 +41,7 @@ const Navbar = () => {
            <span>Packages</span>
          </Link>
        </div>
-        {user ? user.username : (
+        {user ? <DropDownMenu/> : (
           <div className="navItems">
             <Link to='/register' className="navButton">Register</Link>
             <Link to='/login' className="navButton">Login</Link>
