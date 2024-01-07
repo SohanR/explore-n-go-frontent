@@ -1,30 +1,52 @@
-import "./hotel.css";
-import Navbar from "../../components/navbar/Navbar";
-import Header from "../../components/header/Header";
-import MailList from "../../components/mailList/MailList";
-import Footer from "../../components/footer/Footer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import { useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { baseUrl } from "../../baseUrl";
+import Footer from "../../components/footer/Footer";
+import Header from "../../components/header/Header";
+import MailList from "../../components/mailList/MailList";
+import Navbar from "../../components/navbar/Navbar";
 import Reserve from "../../components/reserve/Reserve";
+import { AuthContext } from "../../context/AuthContext";
+import { SearchContext } from "../../context/SearchContext";
+import "./hotel.css";
 
 const Hotel = () => {
-  const location = useLocation();
-  const id = location.pathname.split("/")[2];
+  // const location = useLocation();
+  // const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { id } = useParams();
+  console.log("Hotel ID:", id);
+
+  // const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  useEffect(() => {
+    getHotelData();
+  }, []);
+
+  const getHotelData = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${baseUrl}/api/hotel/${id}`);
+      console.log("single hotel res-->", res.data.message);
+      setData(res.data.message);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log("hotel get error", error);
+    }
+  };
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -38,7 +60,10 @@ const Hotel = () => {
   }
 
   // Ensure dates is defined and has the expected structure before using its properties
-  const days = dates?.[0]?.endDate && dates?.[0]?.startDate ? dayDifference(dates[0].endDate, dates[0].startDate) : 0;
+  const days =
+    dates?.[0]?.endDate && dates?.[0]?.startDate
+      ? dayDifference(dates[0].endDate, dates[0].startDate)
+      : 0;
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -86,7 +111,7 @@ const Hotel = () => {
               />
               <div className="sliderWrapper">
                 <img
-                  src={data.photos[slideNumber]}
+                  src={data.images[slideNumber]}
                   alt=""
                   className="sliderImg"
                 />
@@ -99,21 +124,20 @@ const Hotel = () => {
             </div>
           )}
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
             <h1 className="hotelTitle">{data.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
-              <span>{data.address}</span>
+              <span>{data.city}</span>
             </div>
-            <span className="hotelDistance">
+            {/* <span className="hotelDistance">
               Excellent location – {data.distance}m from center
-            </span>
+            </span> */}
             <span className="hotelPriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a
-              free airport taxi
+              Book a stay over ${data.price} at this property and get a free
+              airport taxi
             </span>
             <div className="hotelImages">
-              {data.photos?.map((photo, i) => (
+              {data.images?.map((photo, i) => (
                 <div className="hotelImgWrapper" key={i}>
                   <img
                     onClick={() => handleOpen(i)}
@@ -121,25 +145,25 @@ const Hotel = () => {
                     alt=""
                     className="hotelImg"
                   />
+
                 </div>
               ))}
+                    <div className="hotelDetailsPrice" style={{alignContent: 'center',marginLeft: '33%'}}>
+                    <h1>Perfect for a {days}-night stay!</h1>
+                    <span>
+                      Located in the real heart of Krakow, this property has an
+                      excellent location score of 9.8!
+                    </span>
+                    <h2>
+                      <b>${days * data.price * options.room}</b> ({days} nights)
+                    </h2>
+                    <button onClick={handleClick}>Reserve or Book Now!</button>
+                  </div>
             </div>
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">{data.title}</h1>
                 <p className="hotelDesc">{data.desc}</p>
-              </div>
-              <div className="hotelDetailsPrice">
-                <h1>Perfect for a {days}-night stay!</h1>
-                <span>
-                  Located in the real heart of Krakow, this property has an
-                  excellent location score of 9.8!
-                </span>
-                <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                  nights)
-                </h2>
-                <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
           </div>
@@ -147,7 +171,7 @@ const Hotel = () => {
           <Footer />
         </div>
       )}
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id}/>}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
     </div>
   );
 };

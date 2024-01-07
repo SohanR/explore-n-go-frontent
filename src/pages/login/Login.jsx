@@ -1,18 +1,18 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
-import Navbar from "../../components/navbar/Navbar";
-import Footer from "../../components/footer/Footer";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
   });
-
-  const { loading, error, dispatch } = useContext(AuthContext);
+const [er, setEr] = useState('');
+  const { loading, dispatch } = useContext(AuthContext);
 
   const navigate = useNavigate()
 
@@ -24,10 +24,12 @@ const Login = () => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", credentials);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      const res = await axios.post("/user/login", credentials);
+      console.log("login res",res.data);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.message.details });
       navigate("/")
     } catch (err) {
+      setEr('Authentication Failed')
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
@@ -39,9 +41,9 @@ const Login = () => {
       <div className="lContainer  shadow-xl bg-white p-16  rounded-xl">
       <h2>Please Login</h2>
         <input
-          type="text"
-          placeholder="username"
-          id="username"
+          type="email"
+          placeholder="Email"
+          id="email"
           onChange={handleChange}
           className="lInput rounded  border-2 border-gray-200"
         />
@@ -55,7 +57,7 @@ const Login = () => {
         <button disabled={loading} onClick={handleClick} className="lButton ">
           Login
         </button>
-        {error && <span>{error.message}</span>}
+        {er && <span style={{color:'red', textAlign:'center'}}>{er}</span>}
       </div>
     </div>
     <Footer/>

@@ -6,11 +6,11 @@ import { useContext } from "react";
 import { FaBox, FaCamera, FaHome, FaHotel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import "./navbar.css";
 import DropDownMenu from "../dropDown/dropdown";
+import "./navbar.css";
 const Navbar = () => {
-  // const { user } = useContext(AuthContext);
-  const user=true;
+   const { user } = useContext(AuthContext);
+  
 
   return (
     <div className="navbar">

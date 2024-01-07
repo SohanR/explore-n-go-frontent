@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const DropDownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,13 +9,13 @@ const DropDownMenu = () => {
   };
 
   const navigate = useNavigate();
-
+  const { loading, error, dispatch,user } = useContext(AuthContext);
   const handleLogOut = () => {
-    localStorage.setItem("auth", false);
-    console.log(localStorage.getItem("auth"));
-    navigate("/");
+    dispatch({ type: "LOGOUT" });
     window.location.reload();
   };
+
+ 
 
   return (
     <div className="relative inline-block z-20 text-left">
@@ -30,7 +31,7 @@ const DropDownMenu = () => {
         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300">
-              <p>Username</p>
+              <p>{user.fullname}</p>
             </p>
             <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300">
               <Link to="/myBookings">My Bookings</Link>

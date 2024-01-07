@@ -2,23 +2,16 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../baseUrl";
-import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
 
 const Register = () => {
-  const [page, setPage] = useState(0);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
   const [fullname, setFullname] = useState("");
   const [userName, setUserName] = useState("");
   const [country, setCountry] = useState("");
 
-  const [phone, setPhone] = useState("");
-  const [facebookUrl, setFacebookUrl] = useState("");
-  const [twitterUrl, setTwitterUrl] = useState("");
-
-  const [photo, setPhoto] = useState(null);
   const [error, setError] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -29,7 +22,7 @@ const Register = () => {
     setEmail(e.target.value);
   };
   const fnChng = (e) => {
-    setEmail(e.target.value);
+    setFullname(e.target.value);
   };
   const pChng = (e) => {
     setPass(e.target.value);
