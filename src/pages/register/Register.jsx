@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../baseUrl";
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 
 const Register = () => {
   const [page, setPage] = useState(0);
@@ -62,13 +64,17 @@ const Register = () => {
   }
 
   return (
-    <div className="login">
-      <form className="lContainer" onSubmit={handleSubmit}>
+ <>
+ 
+      <Navbar/>
+ <div className="login ">
+      <form className="lContainer shadow-xl bg-white p-16  rounded-xl" onSubmit={handleSubmit}>
+        <h3>Please Register</h3>
         <input
           type="email"
           placeholder="Email"
           onChange={eChng}
-          className="lInput"
+          className="lInput rounded  border-2 border-gray-200"
         />
 
         <input
@@ -76,31 +82,31 @@ const Register = () => {
           placeholder="Full Name"
           id="username"
           onChange={fnChng}
-          className="lInput"
+          className="lInput rounded  border-2 border-gray-200"
         />
         <input
           type="text"
           placeholder="username"
           id="username"
           onChange={uChng}
-          className="lInput"
+          className="lInput rounded  border-2 border-gray-200"
         />
         <input
           type="text"
           placeholder="Country"
           id="username"
           onChange={cChng}
-          className="lInput"
+          className="lInput rounded  border-2 border-gray-200"
         />
         <input
           type="password"
           placeholder="password"
           id="password"
           onChange={pChng}
-          className="lInput"
+          className="lInput rounded  border-2 border-gray-200"
         />
         <button
-          type="submit"          
+          type="submit"      className="bg-blue-400 rounded py-2"     
           value={loading ? "Loading..." : "Submit"}
           style={{ cursor: loading ? "not-allowed" : "pointer" }}
         >Register</button>
@@ -108,10 +114,12 @@ const Register = () => {
         {error && <span>{error.message}</span>}
 
         <p style={{ marginTop: "10px" }}>
-          <Link href="/login"> Already have an account? Log in here..</Link>
+          <Link to="/login"> Already have an account? Log in here..</Link>
         </p>
       </form>
     </div>
+    <Footer/>
+ </>
   );
 };
 

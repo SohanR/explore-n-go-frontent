@@ -9,7 +9,6 @@ const Package = () => {
              <div>
             <Navbar/>
             <Header/>
-            <h2 className='text-center text-xl text-blue-800 mt-5 font-semibold'>Pricing Table</h2>
             <div className=''>
             <div class='flex items-center justify-center min-h-screen px-[160px]'>
 	<div class='w-full  mx-auto bg-white rounded-lg '>
