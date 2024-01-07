@@ -17,7 +17,9 @@ import Reserve from "../../components/reserve/Reserve";
 import { AuthContext } from "../../context/AuthContext";
 import { SearchContext } from "../../context/SearchContext";
 import "./hotel.css";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 const Hotel = () => {
   // const location = useLocation();
   // const id = location.pathname.split("/")[2];
@@ -26,8 +28,13 @@ const Hotel = () => {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const [startDate, setStartDate] = useState(new Date());
   const { id } = useParams();
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleOptionChange = event => {
+    setSelectedOption(event.target.value);
+  };
   console.log("Hotel ID:", id);
 
   // const { data, loading, error } = useFetch(`/hotels/find/${id}`);
@@ -133,10 +140,10 @@ const Hotel = () => {
               Excellent location – {data.distance}m from center
             </span> */}
             <span className="hotelPriceHighlight">
-              Book a stay over ${data.price} at this property and get a free
+              Book a stay over  at this property and get a free
               airport taxi
             </span>
-            <div className="hotelImages">
+            <div className="flex  gap-4 ">
               {data.images?.map((photo, i) => (
                 <div className="hotelImgWrapper" key={i}>
                   <img
@@ -148,7 +155,23 @@ const Hotel = () => {
 
                 </div>
               ))}
-                    <div className="hotelDetailsPrice" style={{alignContent: 'center',marginLeft: '33%'}}>
+              <div className="shadow-xl p-9 ">
+                <p className="text-lg text-blue-800">Choose PickIn Date:</p>
+               <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+               <div className="mt-3">
+      <select value={selectedOption} onChange={handleOptionChange}>
+        <option value="" disabled>Select a Room</option>
+        <option value="option1">Room No: 347872</option>
+        <option value="option2">Room No: 347872</option>
+        <option value="option3">Room No: 3478723</option>
+        <option value="option4">Room No: 3478724</option>
+      </select>
+     
+    </div>
+    <p className="text-md ">Price:${data.price}</p>
+              </div>
+            </div>
+                    <div className="hotelDetailsPrice mt-6" style={{alignContent: 'center',marginLeft: '33%'}}>
                     <h1>Perfect for a {days}-night stay!</h1>
                     <span>
                       Located in the real heart of Krakow, this property has an
@@ -159,7 +182,6 @@ const Hotel = () => {
                     </h2>
                     <button onClick={handleClick}>Reserve or Book Now!</button>
                   </div>
-            </div>
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">{data.title}</h1>
