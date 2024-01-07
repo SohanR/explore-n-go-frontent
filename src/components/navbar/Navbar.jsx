@@ -1,15 +1,12 @@
-  import "./navbar.css";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import {
-  faBed,
-  faCar,
-  faPlane,
-  faTaxi,
+  import {
+  faTaxi
 } from "@fortawesome/free-solid-svg-icons";
-import { FaHome } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
+import { FaBox, FaCamera, FaHome, FaHotel } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import "./navbar.css";
 const Navbar = () => {
   const { user } = useContext(AuthContext);
 
@@ -17,7 +14,7 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navContainer items-center">
         <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-          <span className="logo">Go & Explore</span>
+          <span className="logo">Explore & Go</span>
         </Link>
         <div className=" flex flex-row justify-start ml-20 mt-3 gap-4 mb-3 items-center">
          
@@ -26,26 +23,26 @@ const Navbar = () => {
            <span>Home</span>
          </Link>
          <Link to='/hotels' className="text-white flex gap-2 items-center " >
-           <FontAwesomeIcon icon={faPlane} />
+         <FaHotel />
            <span>Hotels</span>
          </Link>
-         <Link to='/package' className="text-white flex gap-2 items-center">
-           <FontAwesomeIcon icon={faCar} />
-           <span>Packages</span>
-         </Link>
          <Link to='photograph' className="text-white flex gap-2 items-center">
-           <FontAwesomeIcon icon={faBed} />
-           <span>Photograpers</span>
+         <FaCamera />
+           <span>Photographers</span>
          </Link>
          <Link to='/taxis' className="text-white flex gap-2 items-center">
            <FontAwesomeIcon icon={faTaxi} />
            <span> taxis</span>
          </Link>
+         <Link to='/package' className="text-white flex gap-2 items-center">
+         <FaBox />
+           <span>Packages</span>
+         </Link>
        </div>
         {user ? user.username : (
           <div className="navItems">
             <Link to='/register' className="navButton">Register</Link>
-            <button className="navButton">Login</button>
+            <Link to='/login' className="navButton">Login</Link>
           </div>
         )}
       </div>

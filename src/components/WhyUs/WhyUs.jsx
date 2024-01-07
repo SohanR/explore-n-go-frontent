@@ -20,7 +20,7 @@ const WhyUs = () => {
                     <FaParking className='text-7xl h-25 w-32'/>
                     <div>
                         <h4 className='text-xl font-semibold'>Parking Space</h4>
-                        <p>All placges and activiates are carefully picked by us. Lorem ipsum dolor sit amet consetetur sadipscing.</p>
+                        <p>All places and activity are carefully picked by us. Lorem ipsum dolor sit amet consetetur sadipscing.</p>
                     </div>
                 </div>
                 <div className='flex flex-row gap-5'>
