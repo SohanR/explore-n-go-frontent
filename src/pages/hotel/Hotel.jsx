@@ -7,17 +7,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 import { useNavigate, useParams } from "react-router-dom";
 import { baseUrl } from "../../baseUrl";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
-import Reserve from "../../components/reserve/Reserve";
 import { AuthContext } from "../../context/AuthContext";
 import { SearchContext } from "../../context/SearchContext";
 import "./hotel.css";
-import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 const Hotel = () => {
@@ -29,10 +28,11 @@ const Hotel = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const { id } = useParams();
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
 
-  const handleOptionChange = event => {
+  const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
   console.log("Hotel ID:", id);
@@ -89,13 +89,35 @@ const Hotel = () => {
     setSlideNumber(newSlideNumber);
   };
 
-  const handleClick = () => {
+  const handleClick =async () => {
+    console.log("user -->",user);
     if (user) {
-      setOpenModal(true);
+      try {
+        const orderData = {
+          user:user._id , // Replace with the actual user ID
+          serviceType: 'hotel', // Replace with the actual service type (e.g., hotel, photographer, etc.)
+          serviceId: id, // Replace with the actual service ID
+          startDate:startDate, // Replace with the actual start date
+          endDate: endDate, // Replace with the actual end date
+          totalPrice: data.price, // Replace with the actual total price
+          // Optionally, you can include payment and orderStatus here as well
+        };
+    
+        const response = await axios.post(`${baseUrl}/api/order/create`, orderData);
+        console.log('Order created:', response.data);
+        // Handle success - do something with the response data if needed
+      } catch (error) {
+        console.error('Error creating order:', error.response ? error.response.data : error.message);
+        // Handle error - log error details or display an error message to the user
+      }
+
     } else {
       navigate("/login");
     }
   };
+
+
+  
   return (
     <div>
       <Navbar />
@@ -140,8 +162,7 @@ const Hotel = () => {
               Excellent location – {data.distance}m from center
             </span> */}
             <span className="hotelPriceHighlight">
-              Book a stay over  at this property and get a free
-              airport taxi
+              Book a stay over at this property and get a free airport taxi
             </span>
             <div className="flex  gap-4 ">
               {data.images?.map((photo, i) => (
@@ -152,36 +173,51 @@ const Hotel = () => {
                     alt=""
                     className="hotelImg"
                   />
-
                 </div>
               ))}
-              <div className="shadow-xl p-9 ">
-                <p className="text-lg text-blue-800">Choose PickIn Date:</p>
-               <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-               <div className="mt-3">
-      <select value={selectedOption} onChange={handleOptionChange}>
-        <option value="" disabled>Select a Room</option>
-        <option value="option1">Room No: 347872</option>
-        <option value="option2">Room No: 347872</option>
-        <option value="option3">Room No: 3478723</option>
-        <option value="option4">Room No: 3478724</option>
-      </select>
-     
-    </div>
-    <p className="text-md ">Price:${data.price}</p>
-              </div>
+
             </div>
-                    <div className="hotelDetailsPrice mt-6" style={{alignContent: 'center',marginLeft: '33%'}}>
-                    <h1>Perfect for a {days}-night stay!</h1>
-                    <span>
-                      Located in the real heart of Krakow, this property has an
-                      excellent location score of 9.8!
-                    </span>
-                    <h2>
-                      <b>${days * data.price * options.room}</b> ({days} nights)
-                    </h2>
-                    <button onClick={handleClick}>Reserve or Book Now!</button>
-                  </div>
+            <div
+              className="hotelDetailsPrice mt-6"
+              style={{ alignContent: "center", marginLeft: "33%" }}
+            >
+              {/* <h1>Perfect for a {days}-night stay!</h1> */}
+              <span>
+                Located in the real heart of Krakow, this property has an
+                excellent location score of 9.8!
+              </span>
+              {/* <h2>
+                <b>${days * data.price * options.room}</b> ({days} nights)
+              </h2> */}
+
+              <div className="shadow-xl p-9 ">
+                <p className="text-lg text-blue-800">Choose Check in Date:</p>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+
+                {/* <div className="mt-3">
+                  <select value={selectedOption} onChange={handleOptionChange}>
+                    <option value="" disabled>
+                      Select a Room
+                    </option>
+                    <option value="option1">Room No: 347872</option>
+                    <option value="option2">Room No: 347872</option>
+                    <option value="option3">Room No: 3478723</option>
+                    <option value="option4">Room No: 3478724</option>
+                  </select>
+                </div> */}
+
+                <p className="mt-9 text-lg text-blue-800">Choose Check in Date:</p>
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                />
+                <p className="mt-10 text-md ">Price Per Night: ${data.price}</p>
+              </div>
+              <button onClick={handleClick}>Reserve or Book Now!</button>
+            </div>
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">{data.title}</h1>
@@ -193,7 +229,7 @@ const Hotel = () => {
           <Footer />
         </div>
       )}
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+      {/* {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />} */}
     </div>
   );
 };
