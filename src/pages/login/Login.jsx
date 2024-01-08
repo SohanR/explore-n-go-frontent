@@ -24,7 +24,7 @@ const [er, setEr] = useState('');
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/user/login", credentials);
+      const res = await axios.post(`http://localhost:8800/api/user/login`, credentials);
       console.log("login res",res.data);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.message.details });
       navigate("/")
