@@ -1,100 +1,96 @@
-import React from 'react';
-import Navbar from '../../components/navbar/Navbar';
-import Footer from '../../components/footer/Footer';
-import Header from '../../components/header/Header';
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../baseUrl";
+import Footer from "../../components/footer/Footer";
+import Header from "../../components/header/Header";
+import Navbar from "../../components/navbar/Navbar";
+import { AuthContext } from "../../context/AuthContext";
 
 const Taxis = () => {
-    return (
-        <div>
-            <Navbar/>
-            <Header/>
-              <div className='taxi'>
+  const [data, setData] = useState([]);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const datass = async () => {
+      const res = await axios.get(`${baseUrl}/api/taxis`);
+      console.log("photos", res);
+      setData(res.data);
+    };
+    datass();
+  }, []);
 
-<div className="custom-card ">
-<figure><img className='img' src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg" alt="Album"/></figure>
-<div className="custom-card-body">
-<div className='body-title'>
-<div> <h2 className="custom-card-title">Regus
-</h2>
-<p className='desc'>Book a yellow taxi for quick and convenient rides across the city.</p></div>
-<div>
+  const handleClick = async (id, price) => {
+    console.log("user -->", user);
+    if (user) {
+      try {
+        const orderData = {
+          user: user._id, // Replace with the actual user ID
+          serviceType: "Taxi", // Replace with the actual service type (e.g., hotel, photographer, etc.)
+          serviceId: id, // Replace with the actual service ID
+          // startDate:startDate, // Replace with the actual start date
+          // endDate: endDate, // Replace with the actual end date
+          totalPrice: price, // Replace with the actual total price
+          // Optionally, you can include payment and orderStatus here as well
+        };
 
-</div>
-</div>
-<div className="custom-card-actions ">
-<button className="custom-btn">View</button>
-</div>
-</div>
-</div>
-<div className="custom-card ">
-<figure><img className='img' src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg" alt="Album"/></figure>
-<div className="custom-card-body">
-<div className='body-title'>
-<div> <h2 className="custom-card-title">Regus
-</h2>
-<p className='desc'>Co-working offfice space for employees and companies to conduct meetings and professional meets.</p></div>
-<div>
+        const response = await axios.post(
+          `${baseUrl}/api/order/create`,
+          orderData
+        );
+        console.log("Order created:", response.data);
+        // Handle success - do something with the response data if needed
+      } catch (error) {
+        console.error(
+          "Error creating order:",
+          error.response ? error.response.data : error.message
+        );
+        // Handle error - log error details or display an error message to the user
+      }
+    } else {
+      navigate("/login");
+    }
+  };
 
-</div>
-</div>
-<div className="custom-card-actions ">
-<button className="custom-btn">View</button>
-</div>
-</div>
-</div>
-<div className="custom-card ">
-<figure><img className='img' src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg" alt="Album"/></figure>
-<div className="custom-card-body">
-<div className='body-title'>
-<div> <h2 className="custom-card-title">Regus
-</h2>
-<p className='desc'>Co-working offfice space for employees and companies to conduct meetings and professional meets.</p></div>
-<div>
-
-</div>
-</div>
-<div className="custom-card-actions ">
-<button className="custom-btn">View</button>
-</div>
-</div>
-</div>
-<div className="custom-card ">
-<figure><img className='img' src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg" alt="Album"/></figure>
-<div className="custom-card-body">
-<div className='body-title'>
-<div> <h2 className="custom-card-title">Regus
-</h2>
-<p className='desc'>Co-working offfice space for employees and companies to conduct meetings and professional meets.</p></div>
-<div>
-
-</div>
-</div>
-<div className="custom-card-actions ">
-<button className="custom-btn">View</button>
-</div>
-</div>
-</div>
-<div className="custom-card">
-    <figure><img className='img' src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg" alt="Taxi"/></figure>
-    <div className="custom-card-body">
-      <div className='body-title'>
-        <div>
-          <h2 className="custom-card-title">Yellow Taxi</h2>
-          <p className='desc'>Book a yellow taxi for quick and convenient rides across the city.</p>
-        </div>
-        <div>
-        </div>
+  return (
+    <div>
+      <Navbar />
+      <Header />
+      <div className="taxi">
+        {data.map((t) => (
+          <div className="custom-card" key={t._id}>
+            <figure>
+              <img
+                className="img"
+                src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg"
+                alt="Taxi"
+              />
+            </figure>
+            <div className="custom-card-body">
+              <div className="body-title">
+                <div>
+                  <h2 className="custom-card-title">{t.carName}</h2>
+                  <p className="desc">Capacity {t.maxCapacity} Person</p>
+                  <p className="desc">Price: {t.pricePerKm} Per KM</p>
+                </div>
+                <div></div>
+              </div>
+              <div className="custom-card-actions ">
+                <button
+                  className="custom-btn"
+                  onClick={() => handleClick(t._id, t.pricePerKm)}
+                  className="btn px-4 bg-blue-400 rounded mt-20"
+                >
+                  Hire
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="custom-card-actions ">
-        <button className="custom-btn">View</button>
-      </div>
+      <Footer />
     </div>
-  </div>
-
-</div>
-<Footer/>
-        </div>
-    );
+  );
 };
 
 export default Taxis;
