@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import Navbar from "../../components/navbar/Navbar";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { baseUrl } from "../../baseUrl";
+import Navbar from "../../components/navbar/Navbar";
 
 const Update = () => {
   const [email, setEmail] = useState("");

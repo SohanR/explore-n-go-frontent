@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { baseUrl } from "../../baseUrl";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
-import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 
 const Package = () => {
@@ -71,11 +71,11 @@ const Package = () => {
         <Navbar />
         <Header />
         <div className="">
-          <div className="flex items-center justify-center min-h-screen px-[160px]">
+          <div className="flex items-center justify-center min-h-screen px-4 md:px-8 lg:px-16 xl:px-32 flex-wrap">
             {data.map((pp) => (
               <div
                 key={pp._id}
-                className="w-full  mx-auto bg-white rounded-lg "
+                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-2 mb-4"
               >
                 <div className=" space-y-6 my-20 px-10">
                   <div className="w-full h-full flex flex-col p-4 bg-black/40 rounded-lg">
