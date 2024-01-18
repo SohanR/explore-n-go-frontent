@@ -6,6 +6,7 @@ import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
 const Taxis = () => {
   const [data, setData] = useState([]);
@@ -40,12 +41,25 @@ const Taxis = () => {
         );
         console.log("Order created:", response.data);
         // Handle success - do something with the response data if needed
+        Swal.fire({
+          icon: "success",
+          title: "Taxi Booked",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        navigate(`/myBookings`);
       } catch (error) {
         console.error(
           "Error creating order:",
           error.response ? error.response.data : error.message
         );
         // Handle error - log error details or display an error message to the user
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data,
+        });
       }
     } else {
       navigate("/login");
@@ -77,9 +91,8 @@ const Taxis = () => {
               </div>
               <div className="custom-card-actions ">
                 <button
-                  className="custom-btn"
+                  className="custom-btn btn px-4 bg-blue-400 rounded mt-20"
                   onClick={() => handleClick(t._id, t.pricePerKm)}
-                  className="btn px-4 bg-blue-400 rounded mt-20"
                 >
                   Hire
                 </button>

@@ -5,6 +5,7 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Photographers = () => {
   const [data, setData] = useState([]);
@@ -39,12 +40,25 @@ const Photographers = () => {
         );
         console.log("Order created:", response.data);
         // Handle success - do something with the response data if needed
+        Swal.fire({
+          icon: "success",
+          title: "Photographer Booked",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        navigate(`/myBookings`);
       } catch (error) {
         console.error(
           "Error creating order:",
           error.response ? error.response.data : error.message
         );
         // Handle error - log error details or display an error message to the user
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data,
+        });
       }
     } else {
       navigate("/login");

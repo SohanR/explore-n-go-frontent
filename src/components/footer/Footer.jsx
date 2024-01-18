@@ -44,7 +44,9 @@ const Footer = () => {
           <li className="fListItem">Terms & conditions</li>
         </ul>
       </div>
-      <div className="fText">Copyright © 2022 Lamabooking.</div>
+      <div className=" flex justify-center items-center mt-10 mb-10">
+        Copyright © 2024 Explore & Go.
+      </div>
     </div>
   );
 };

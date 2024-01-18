@@ -1,18 +1,17 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { baseUrl } from "../../baseUrl";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import Navbar from "../../components/navbar/Navbar";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { baseUrl } from "../../baseUrl";
 
-const Register = () => {
+const Update = () => {
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
   const [fullname, setFullname] = useState("");
   const [userName, setUserName] = useState("");
   const [country, setCountry] = useState("");
   const [mobile, setMobile] = useState("");
+  const [data, setData] = useState();
 
   const [error, setError] = useState(false);
 
@@ -20,14 +19,15 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const { id } = useParams();
+
+  console.log("idddddddddddd", id);
+
   const eChng = (e) => {
     setEmail(e.target.value);
   };
   const fnChng = (e) => {
     setFullname(e.target.value);
-  };
-  const pChng = (e) => {
-    setPass(e.target.value);
   };
 
   const cChng = (e) => {
@@ -41,14 +41,29 @@ const Register = () => {
     setUserName(e.target.value);
   };
 
+  useEffect(() => {
+    const datass = async () => {
+      const res = await axios.get(`${baseUrl}/api/user/${id}`);
+      console.log("users data in update", res.data.message);
+      setData(res.data.message);
+    };
+
+    datass();
+
+    setUserName(data?.username);
+    setMobile(data?.mobile);
+    setFullname(data?.fullname);
+    setEmail(data?.email);
+    setCountry(data?.country);
+  }, [userName, mobile, email, country, data, id]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
-      const res = await axios.post(`${baseUrl}/api/user/signup`, {
+      const res = await axios.put(`${baseUrl}/api/user/${id}`, {
         email: email,
-        password: pass,
         fullname: fullname,
         country: country,
         username: userName,
@@ -57,13 +72,13 @@ const Register = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Registration Success",
+        title: "Updated Successfully",
         showConfirmButton: false,
         timer: 1500,
       });
       console.log("sussecc", res);
       setLoading(false);
-      navigate("/login");
+      navigate(`/profile/${id}`);
     } catch (err) {
       console.log("register error", err);
       Swal.fire({
@@ -74,23 +89,25 @@ const Register = () => {
       setLoading(false);
     }
   };
-
   return (
-    <>
+    <div>
       <Navbar />
+
       <div className="login ">
         <form
           className="lContainer shadow-xl bg-white p-16  rounded-xl"
           onSubmit={handleSubmit}
         >
-          <h3>Please Register</h3>
+          <h1 className=" text-center text-lg">User Update Form</h1>
           <input
+            value={email}
             type="email"
             placeholder="Email"
             onChange={eChng}
             className="lInput rounded  border-2 border-gray-200"
           />
           <input
+            value={mobile}
             type="text"
             placeholder="Mobile Number"
             onChange={mChng}
@@ -98,6 +115,7 @@ const Register = () => {
           />
 
           <input
+            value={fullname}
             type="text"
             placeholder="Full Name"
             id="username"
@@ -105,6 +123,7 @@ const Register = () => {
             className="lInput rounded  border-2 border-gray-200"
           />
           <input
+            value={userName}
             type="text"
             placeholder="username"
             id="username"
@@ -112,38 +131,26 @@ const Register = () => {
             className="lInput rounded  border-2 border-gray-200"
           />
           <input
+            value={country}
             type="text"
             placeholder="Country"
             id="username"
             onChange={cChng}
             className="lInput rounded  border-2 border-gray-200"
           />
-          <input
-            type="password"
-            placeholder="password"
-            id="password"
-            onChange={pChng}
-            className="lInput rounded  border-2 border-gray-200"
-          />
+
           <button
             type="submit"
             className="bg-blue-400 rounded py-2"
             value={loading ? "Loading..." : "Submit"}
             style={{ cursor: loading ? "not-allowed" : "pointer" }}
           >
-            Register
+            Update
           </button>
-
-          {error && <span>{error.message}</span>}
-
-          <p style={{ marginTop: "10px" }}>
-            <Link to="/login"> Already have an account? Log in here..</Link>
-          </p>
         </form>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 
-export default Register;
+export default Update;

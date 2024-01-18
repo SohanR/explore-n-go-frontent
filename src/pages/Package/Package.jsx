@@ -5,6 +5,7 @@ import { baseUrl } from "../../baseUrl";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 
 const Package = () => {
@@ -40,12 +41,25 @@ const Package = () => {
         );
         console.log("Order created:", response.data);
         // Handle success - do something with the response data if needed
+        Swal.fire({
+          icon: "success",
+          title: "Package Booked",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        navigate(`/myBookings`);
       } catch (error) {
         console.error(
           "Error creating order:",
           error.response ? error.response.data : error.message
         );
         // Handle error - log error details or display an error message to the user
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data,
+        });
       }
     } else {
       navigate("/login");
@@ -77,11 +91,11 @@ const Package = () => {
                       Hotel
                     </h2>
                     <p className="font-semibold text-sm text-gray-200">
-                      {pp.hotel.name}
+                      {pp.hotel?.name}
                     </p>
                     <a
                       className="font-semibold text-sm text-white bg-slate-400 mt-3"
-                      href={`http://localhost:3000/hotels/${pp.hotel._id}`}
+                      href={`http://localhost:3000/hotels/${pp.hotel?._id}`}
                     >
                       View this hotel
                     </a>

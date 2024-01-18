@@ -17,6 +17,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { SearchContext } from "../../context/SearchContext";
 import "./hotel.css";
+import Swal from "sweetalert2";
 
 import "react-datepicker/dist/react-datepicker.css";
 const Hotel = () => {
@@ -89,35 +90,52 @@ const Hotel = () => {
     setSlideNumber(newSlideNumber);
   };
 
-  const handleClick =async () => {
-    console.log("user -->",user);
+  const handleClick = async () => {
+    console.log("user -->", user);
     if (user) {
       try {
         const orderData = {
-          user:user._id , // Replace with the actual user ID
-          serviceType: 'hotel', // Replace with the actual service type (e.g., hotel, photographer, etc.)
+          user: user._id, // Replace with the actual user ID
+          serviceType: "hotel", // Replace with the actual service type (e.g., hotel, photographer, etc.)
           serviceId: id, // Replace with the actual service ID
-          startDate:startDate, // Replace with the actual start date
+          startDate: startDate, // Replace with the actual start date
           endDate: endDate, // Replace with the actual end date
           totalPrice: data.price, // Replace with the actual total price
           // Optionally, you can include payment and orderStatus here as well
         };
-    
-        const response = await axios.post(`${baseUrl}/api/order/create`, orderData);
-        console.log('Order created:', response.data);
+
+        const response = await axios.post(
+          `${baseUrl}/api/order/create`,
+          orderData
+        );
+        console.log("Order created:", response.data);
+        Swal.fire({
+          icon: "success",
+          title: "Hotel Booked",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        navigate(`/myBookings`);
+
         // Handle success - do something with the response data if needed
       } catch (error) {
-        console.error('Error creating order:', error.response ? error.response.data : error.message);
+        console.error(
+          "Error creating order:",
+          error.response ? error.response.data : error.message
+        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data,
+        });
         // Handle error - log error details or display an error message to the user
       }
-
     } else {
       navigate("/login");
     }
   };
 
-
-  
   return (
     <div>
       <Navbar />
@@ -175,7 +193,6 @@ const Hotel = () => {
                   />
                 </div>
               ))}
-
             </div>
             <div
               className="hotelDetailsPrice mt-6"
@@ -209,7 +226,9 @@ const Hotel = () => {
                   </select>
                 </div> */}
 
-                <p className="mt-9 text-lg text-blue-800">Choose Check in Date:</p>
+                <p className="mt-9 text-lg text-blue-800">
+                  Choose Check Out Date:
+                </p>
                 <DatePicker
                   selected={endDate}
                   onChange={(date) => setEndDate(date)}
