@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { baseUrl } from "../../baseUrl";
-import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
-import Swal from "sweetalert2";
 
 const Taxis = () => {
   const [data, setData] = useState([]);
@@ -76,7 +75,8 @@ const Taxis = () => {
             <figure>
               <img
                 className="img"
-                src="https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg"
+                src={t?.images[0] ? t.images[0] : "https://img.freepik.com/free-vector/taxi-poster-with-realistic-yellow-public-service-car-with-reflection_1284-5444.jpg"}
+
                 alt="Taxi"
               />
             </figure>
@@ -101,7 +101,7 @@ const Taxis = () => {
           </div>
         ))}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

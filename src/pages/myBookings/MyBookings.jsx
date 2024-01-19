@@ -24,6 +24,18 @@ const MyBookings = () => {
     datass();
   }, []);
 
+
+  const handleDlt = (id) => {
+    try {
+      axios.delete(`${baseUrl}/api/order/${id}`);
+      setData(data.filter((item) => item.id !== id));
+      console.log(`deleted room ${id}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const columns = [
     {
       field: "id",
@@ -60,6 +72,68 @@ const MyBookings = () => {
       width: 240,
       renderCell: (param) => (
         <div className="userr">{param.row.totalPrice}</div>
+      ),
+    },
+    {
+      field: "payment",
+      headerName: "Payment",
+      width: 140,
+      style: { color: "red" },
+      renderCell: (param) => (
+        <div
+          style={{
+            color: param.row.payment === "due" ? "red" : "green",
+          }}
+          className="userr"
+        >
+          {param.row.payment}
+        </div>
+      ),
+    },
+    {
+      field: "orderStatus",
+      headerName: "Order Status",
+      width: 140,
+      style: { color: "red" },
+      renderCell: (param) => (
+        <div
+          style={{
+            color: param.row.orderStatus === "pending" ? "red" : "green",
+          }}
+          className="userr"
+        >
+          {param.row.orderStatus}
+        </div>
+      ),
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 360,
+      renderCell: (params) => (
+        <div className="actionn">
+           
+
+           {params.row.orderStatus !== "approved" && (
+          <button
+            type="button"
+            style={{
+              padding: "5px 12px",
+              cursor: "pointer",
+              borderRadius: "4px",
+              color: "red",
+              border: "1px solid red",
+              background: "none",
+              marginRight: "10px",
+            }}
+            className="delete_btn"
+            onClick={() => handleDlt(params.row._id)}
+          >
+            Cancel
+          </button>
+          )}
+
+        </div>
       ),
     },
   ]

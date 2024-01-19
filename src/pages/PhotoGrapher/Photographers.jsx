@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { baseUrl } from "../../baseUrl";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
-import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../baseUrl";
+import Navbar from "../../components/navbar/Navbar";
+import { AuthContext } from "../../context/AuthContext";
 
 const Photographers = () => {
   const [data, setData] = useState([]);
@@ -26,7 +25,7 @@ const Photographers = () => {
       try {
         const orderData = {
           user: user._id, // Replace with the actual user ID
-          serviceType: "Photgraphy", // Replace with the actual service type (e.g., hotel, photographer, etc.)
+          serviceType: "Photographer", // Replace with the actual service type (e.g., hotel, photographer, etc.)
           serviceId: id, // Replace with the actual service ID
           // startDate:startDate, // Replace with the actual start date
           // endDate: endDate, // Replace with the actual end date
@@ -76,7 +75,8 @@ const Photographers = () => {
           <div className="custom-card " key={p._id}>
             <img
               className="w-[400px] h-[35vh]"
-              src="https://plus.unsplash.com/premium_photo-1673349178635-39b654f84401"
+              src={p?.images[0] ? p.images[0] : "https://plus.unsplash.com/premium_photo-1673349178635-39b654f84401"}
+
               alt="Album"
             />
             <div className="custom-card-body">
@@ -101,7 +101,7 @@ const Photographers = () => {
           </div>
         ))}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

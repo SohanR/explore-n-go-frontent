@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { baseUrl } from "../../baseUrl";
-import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
@@ -80,12 +79,12 @@ const Package = () => {
                 <div className=" space-y-6 my-20 px-10">
                   <div className="w-full h-full flex flex-col p-4 bg-black/40 rounded-lg">
                     <img
-                      src="https://i.scdn.co/image/ab67616d0000b2739e3f258987afca1e41440fb5"
+                    src={pp?.images[0] ? pp.images[0] : "https://i.scdn.co/image/ab67616d0000b2739e3f258987afca1e41440fb5"}                      
                       alt="pack"
                     />
                     <h1 className="font-bold text-lg text-white mt-3">
                       {" "}
-                      Buy Package to save money
+                      {pp.packageName ? pp.packageName: "Buy Package to save money"}
                     </h1>
                     <h2 className="font-semibold text-lg text-white mt-3">
                       Hotel
@@ -133,7 +132,7 @@ const Package = () => {
             ))}
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );

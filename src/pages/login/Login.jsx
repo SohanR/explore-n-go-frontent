@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../../components/footer/Footer";
+import Swal from "sweetalert2";
+import { baseUrl } from "../../baseUrl";
 import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
-import { baseUrl } from "../../baseUrl";
-import Swal from "sweetalert2";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -76,7 +75,7 @@ const Login = () => {
           )}
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -1,7 +1,6 @@
 import WhyUs from "../../components/WhyUs/WhyUs";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
-import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
@@ -21,7 +20,7 @@ const Home = () => {
         <WhyUs/>
         <FeaturedProperties/>
         <MailList/>
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </div>
   );

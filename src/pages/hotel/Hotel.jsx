@@ -9,15 +9,14 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { baseUrl } from "../../baseUrl";
-import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { SearchContext } from "../../context/SearchContext";
 import "./hotel.css";
-import Swal from "sweetalert2";
 
 import "react-datepicker/dist/react-datepicker.css";
 const Hotel = () => {
@@ -96,7 +95,7 @@ const Hotel = () => {
       try {
         const orderData = {
           user: user._id, // Replace with the actual user ID
-          serviceType: "hotel", // Replace with the actual service type (e.g., hotel, photographer, etc.)
+          serviceType: "Hotel", // Replace with the actual service type (e.g., hotel, photographer, etc.)
           serviceId: id, // Replace with the actual service ID
           startDate: startDate, // Replace with the actual start date
           endDate: endDate, // Replace with the actual end date
@@ -245,7 +244,7 @@ const Hotel = () => {
             </div>
           </div>
           <MailList />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       )}
       {/* {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />} */}
