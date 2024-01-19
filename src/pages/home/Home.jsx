@@ -1,7 +1,6 @@
 import WhyUs from "../../components/WhyUs/WhyUs";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
-import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
@@ -11,7 +10,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Header/>
+      {/* <Header/> */}
       <div className="homeContainer">
         <Featured/>
         <h1 className="homeTitle">Browse by property type</h1>

@@ -11,7 +11,7 @@ const Update = () => {
   const [userName, setUserName] = useState("");
   const [country, setCountry] = useState("");
   const [mobile, setMobile] = useState("");
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
 
   const [error, setError] = useState(false);
 
@@ -50,12 +50,19 @@ const Update = () => {
 
     datass();
 
-    setUserName(data?.username);
-    setMobile(data?.mobile);
-    setFullname(data?.fullname);
-    setEmail(data?.email);
-    setCountry(data?.country);
-  }, [userName, mobile, email, country, data, id]);
+
+  }, [id]);
+
+  useEffect(() => {
+    if(data){
+      setUserName(data?.username);
+      setMobile(data?.mobile);
+      setFullname(data?.fullname);
+      setEmail(data?.email);
+      setCountry(data?.country);
+    }
+
+  }, [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

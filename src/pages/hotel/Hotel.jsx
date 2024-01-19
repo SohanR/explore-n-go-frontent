@@ -1,8 +1,5 @@
 import {
-  faCircleArrowLeft,
-  faCircleArrowRight,
-  faCircleXmark,
-  faLocationDot,
+  faLocationDot
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -11,14 +8,12 @@ import DatePicker from "react-datepicker";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { baseUrl } from "../../baseUrl";
-import Header from "../../components/header/Header";
-import MailList from "../../components/mailList/MailList";
-import Navbar from "../../components/navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { SearchContext } from "../../context/SearchContext";
 import "./hotel.css";
 
 import "react-datepicker/dist/react-datepicker.css";
+import Navbar from "../../components/navbar/Navbar";
 const Hotel = () => {
   // const location = useLocation();
   // const id = location.pathname.split("/")[2];
@@ -136,119 +131,115 @@ const Hotel = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <Header type="list" />
-      {loading ? (
-        "loading"
-      ) : (
-        <div className="hotelContainer">
-          {open && (
-            <div className="slider">
-              <FontAwesomeIcon
-                icon={faCircleXmark}
-                className="close"
-                onClick={() => setOpen(false)}
-              />
-              <FontAwesomeIcon
-                icon={faCircleArrowLeft}
-                className="arrow"
-                onClick={() => handleMove("l")}
-              />
-              <div className="sliderWrapper">
+    <>
+
+
+
+
+
+
+
+
+<Navbar/>
+
+
+
+      <div className="bg-gray-100 dark:bg-gray-800 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row -mx-4">
+            <div className="md:flex-1 px-4">
+              <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
                 <img
-                  src={data.images[slideNumber]}
-                  alt=""
-                  className="sliderImg"
+                  className="w-full h-full object-cover"
+                  src={data && data.images && data?.images[0]}
+                  alt="Product"
                 />
               </div>
-              <FontAwesomeIcon
-                icon={faCircleArrowRight}
-                className="arrow"
-                onClick={() => handleMove("r")}
-              />
-            </div>
-          )}
-          <div className="hotelWrapper">
-            <h1 className="hotelTitle">{data.name}</h1>
-            <div className="hotelAddress">
-              <FontAwesomeIcon icon={faLocationDot} />
-              <span>{data.city}</span>
-            </div>
-            {/* <span className="hotelDistance">
-              Excellent location – {data.distance}m from center
-            </span> */}
-            <span className="hotelPriceHighlight">
-              Book a stay over at this property and get a free airport taxi
-            </span>
-            <div className="flex  gap-4 ">
-              {data.images?.map((photo, i) => (
-                <div className="hotelImgWrapper" key={i}>
-                  <img
-                    onClick={() => handleOpen(i)}
-                    src={photo}
-                    alt=""
-                    className="hotelImg"
-                  />
+
+              <div className="flex -mx-2 mb-4">
+                <div className="w-1/2 px-2">
+                  <button onClick={handleClick} className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">
+                    Book Now
+                  </button>
                 </div>
-              ))}
+
+              </div>
             </div>
-            <div
-              className="hotelDetailsPrice mt-6"
-              style={{ alignContent: "center", marginLeft: "33%" }}
-            >
-              {/* <h1>Perfect for a {days}-night stay!</h1> */}
-              <span>
-                Located in the real heart of Krakow, this property has an
-                excellent location score of 9.8!
-              </span>
-              {/* <h2>
-                <b>${days * data.price * options.room}</b> ({days} nights)
-              </h2> */}
+            <div className="md:flex-1 px-4">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                {data.name}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                <FontAwesomeIcon icon={faLocationDot} /> {""}
+                <span>{data.city}</span>
+              </p>
+              <div className="flex mb-4">
+                <div className="mr-4">
+                  <span className="font-bold text-gray-700 dark:text-gray-300">
+                    Price Per Night:
+                  </span>
+                  {" "}
+                  <span className="text-gray-600 dark:text-gray-300">
+                     ${data.price}
+                  </span>
+                </div>
 
-              <div className="shadow-xl p-9 ">
-                <p className="text-lg text-blue-800">Choose Check in Date:</p>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
+              </div>
 
-                {/* <div className="mt-3">
-                  <select value={selectedOption} onChange={handleOptionChange}>
-                    <option value="" disabled>
-                      Select a Room
-                    </option>
-                    <option value="option1">Room No: 347872</option>
-                    <option value="option2">Room No: 347872</option>
-                    <option value="option3">Room No: 3478723</option>
-                    <option value="option4">Room No: 3478724</option>
-                  </select>
-                </div> */}
-
-                <p className="mt-9 text-lg text-blue-800">
-                  Choose Check Out Date:
+              <div>
+                <span className="font-bold text-gray-700 dark:text-gray-300">
+                  Hotel Description:
+                </span>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
+                  {data.desc}
                 </p>
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                />
-                <p className="mt-10 text-md ">Price Per Night: ${data.price}</p>
               </div>
-              <button onClick={handleClick}>Reserve or Book Now!</button>
-            </div>
-            <div className="hotelDetails">
-              <div className="hotelDetailsTexts">
-                <h1 className="hotelTitle">{data.title}</h1>
-                <p className="hotelDesc">{data.desc}</p>
-              </div>
+      
+              {/* <div className="mb-4">
+                <span className="font-bold text-gray-700 dark:text-gray-300">
+                  Select Room:
+                </span>
+                <div className="flex items-center mt-2">
+                  <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">
+                    S
+                  </button>
+                  <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">
+                    M
+                  </button>
+                  <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">
+                    L
+                  </button>
+                  <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">
+                    XL
+                  </button>
+                  <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">
+                    XXL
+                  </button>
+                </div>
+              </div> */}
+
+              <div className="mt-10" >
+                  <p className="text-lg text-white">Choose Check in Date:</p>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                  />
+
+                  <p className="mt-9 text-lg text-white">
+                    Choose Check Out Date:
+                  </p>
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                  />
+
+                </div>
+
             </div>
           </div>
-          <MailList />
-          {/* <Footer /> */}
         </div>
-      )}
-      {/* {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />} */}
-    </div>
+      </div>
+    </>
   );
 };
 

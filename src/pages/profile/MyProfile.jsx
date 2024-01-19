@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../components/navbar/Navbar";
-import { baseUrl } from "../../baseUrl";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { baseUrl } from "../../baseUrl";
+import Navbar from "../../components/navbar/Navbar";
 const MyProfile = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
 
   const { id } = useParams();
 

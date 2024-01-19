@@ -13,7 +13,7 @@ const SearchItem = ({ item }) => {
           Studio Apartment with Air conditioning
         </span>
         <span className="siFeatures">{item.desc}</span>
-        <span className="siCancelOp">Free cancellation </span>ul
+        <span className="siCancelOp">Free cancellation </span>
         <span className="siCancelOpSubtitle">
           You can cancel later, so lock in this great price today!
         </span>
